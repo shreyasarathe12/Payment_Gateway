@@ -1,0 +1,196 @@
+
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Payment Gateway API",
+        "description": "API Documentation for the Payment Gateway"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "Payments",
+            "description": "API for payments"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/payments": {
+            "post": {
+                "tags": ["Payments"],
+                "summary": "Create a new payment",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Payment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Payment created",
+                        "schema": {
+                            "$ref": "#/definitions/PaymentResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/payments/{id}/process": {
+            "post": {
+                "tags": ["Payments"],
+                "summary": "Process a payment",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProcessPayment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment processed",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/payments/{id}/status": {
+            "get": {
+                "tags": ["Payments"],
+                "summary": "Get payment status",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment status",
+                        "schema": {
+                            "$ref": "#/definitions/PaymentStatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/payments/{id}/refund": {
+            "post": {
+                "tags": ["Payments"],
+                "summary": "Refund a payment",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RefundPayment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment refunded",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Payment": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "paymentMethod": {
+                    "type": "string"
+                }
+            }
+        },
+        "PaymentResponse": {
+            "type": "object",
+            "properties": {
+                "payment_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "ProcessPayment": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                }
+            }
+        },
+        "TransactionResponse": {
+            "type": "object",
+            "properties": {
+                "transaction_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "PaymentStatusResponse": {
+            "type": "object",
+            "properties": {
+                "payment_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "RefundPayment": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}
