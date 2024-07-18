@@ -35,8 +35,7 @@ jobs:
 
     - name: Deploy to ECS
       run: |
-        aws ecs update-service --payment-gayeway-cluster --payment-gateway-service --force-new-deployment
-
+        aws ecs update-service --cluster payment-gateway-cluster --service payment-gateway-service --force-new-deployment
     - name: Invalidate CloudFront cache (optional)
       run: |
         aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
